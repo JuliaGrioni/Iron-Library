@@ -21,10 +21,5 @@ public class Author {
         this.authorBook = authorBook;
     }
 
-    public Author(Integer authorId, String name, String email, Book authorBook) {
-        this.authorId = authorId;
-        this.name = name;
-        this.email = email;
-        this.authorBook = authorBook;
-    }
+
 }
