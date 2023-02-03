@@ -1,11 +1,15 @@
 package com.ironhack.IronLibrary.classes;
-
 import com.ironhack.IronLibrary.model.Book;
+import com.ironhack.IronLibrary.repository.BookRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.util.Scanner;
-
+@Component
 public class LibraryMethods {
-    public static void showMenu(){
+    @Autowired
+    private BookRepository bookRepository;
+    public void showMenu(){
         System.out.println("1- Add a book \n" +
                         "2- Search book by title \n" +
                         "3- Search book by category\n" +
@@ -16,7 +20,7 @@ public class LibraryMethods {
                         "8- Exit");
     }
 
-    public static void addBook(Book book){
+    public void addBook(Book book){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter isbn: ");
         String isbn= scanner.nextLine();
@@ -31,6 +35,8 @@ public class LibraryMethods {
         System.out.println("Enter number of books: ");
         int quantity= scanner.nextInt();
 
+        Book book1= new Book(isbn, category,title, quantity);
+        bookRepository.save(book1);
 
     }
 }

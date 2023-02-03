@@ -1,9 +1,6 @@
 package com.ironhack.IronLibrary.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Book {
@@ -12,6 +9,9 @@ public class Book {
     private String category;
     private String title;
     private Integer quantity;
+
+    @ManyToOne
+    private Author author;
 
     public Book() {
     }

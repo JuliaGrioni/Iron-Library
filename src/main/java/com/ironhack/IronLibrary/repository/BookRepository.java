@@ -5,4 +5,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, String> {
+    Book findByTitle (String title);
+    Book findByCategory (String category);
+
+    // Relacion con autor. Book findBy (String name);
+
 }
