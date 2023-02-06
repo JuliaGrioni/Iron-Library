@@ -2,6 +2,7 @@ package com.ironhack.IronLibrary;
 
 import com.ironhack.IronLibrary.classes.LibraryMethods;
 import com.ironhack.IronLibrary.model.Book;
+import com.ironhack.IronLibrary.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -29,7 +30,16 @@ public class IronLibraryApplication implements CommandLineRunner {
 			String command= scanner.nextLine();
 			switch (command){
 				case "1":
-					libraryMethods.addBook(new Book());
+					libraryMethods.addBook();
+					break;
+				case "2":
+					libraryMethods.findByTitle();
+					break;
+				case "3":
+					libraryMethods.findByCategory();
+					break;
+				case "4":
+					libraryMethods.findByAuthor();
 					break;
 				case "EXIT":
 					execute= false;

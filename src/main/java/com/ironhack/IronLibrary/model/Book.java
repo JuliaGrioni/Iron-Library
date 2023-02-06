@@ -16,11 +16,12 @@ public class Book {
     public Book() {
     }
 
-    public Book(String isbn, String category, String title, Integer quantity) {
+    public Book(String isbn, String category, String title, Integer quantity, Author author) {
         this.isbn = isbn;
         this.category = category;
         this.title = title;
         this.quantity = quantity;
+        this.author = author;
     }
 
     public String getIsbn() {
@@ -54,6 +55,15 @@ public class Book {
     public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
+
+    public Author getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(Author author) {
+        this.author = author;
+    }
+
     @Override
     public String toString() {
         return "Book{" +
