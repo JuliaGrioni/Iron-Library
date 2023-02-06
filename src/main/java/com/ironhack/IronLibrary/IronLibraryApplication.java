@@ -1,8 +1,6 @@
 package com.ironhack.IronLibrary;
 
 import com.ironhack.IronLibrary.classes.LibraryMethods;
-import com.ironhack.IronLibrary.model.Book;
-import com.ironhack.IronLibrary.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,7 +20,6 @@ public class IronLibraryApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception{
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("Welcome to the Iron's Library!");
-		libraryMethods.showMenu();
 		System.out.println("Enter your choice: ");
 		boolean execute=true;
 		while (execute) {
@@ -33,19 +30,30 @@ public class IronLibraryApplication implements CommandLineRunner {
 					libraryMethods.addBook();
 					break;
 				case "2":
-					libraryMethods.findByTitle();
+					libraryMethods.searchBookByTitle();
 					break;
 				case "3":
-					libraryMethods.findByCategory();
+					libraryMethods.searchBookByCategory();
 					break;
 				case "4":
-					libraryMethods.findByAuthor();
+					libraryMethods.searchBookByAuthor();
 					break;
-				case "EXIT":
-					execute= false;
+				case "5":
+					libraryMethods.listAllBooks();
 					break;
-				default: System.out.println("type HELP to show commands!");
-					System.out.println("commands not exist!");
+				case "6":
+					libraryMethods.issueBookToStudent();
+					break;
+				case "7":
+					libraryMethods.listBooksByUsn();
+					break;
+				case "8":
+					System.out.println("Goodbye!");
+					System.exit(0);
+					break;
+				default:
+					System.out.println("Invalid option, please try again.");
+					break;
 			}
 		}
 		scanner.close();

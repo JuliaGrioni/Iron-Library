@@ -2,6 +2,8 @@ package com.ironhack.IronLibrary.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 public class Book {
     @Id
@@ -12,6 +14,9 @@ public class Book {
 
     @ManyToOne
     private Author author;
+
+//    @OneToMany(mappedBy = "issueBook")
+//    private List<Issue> issues;
 
     public Book() {
     }

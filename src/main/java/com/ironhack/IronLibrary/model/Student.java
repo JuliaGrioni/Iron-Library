@@ -2,12 +2,18 @@ package com.ironhack.IronLibrary.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
+import java.util.List;
 
 @Entity
 public class Student {
     @Id
     private String usn;
     private String name;
+
+//    @OneToMany(mappedBy = "issueStudent")
+//    private List<Issue> issues;
 
     public Student() {
     }
