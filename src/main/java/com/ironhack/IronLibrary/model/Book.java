@@ -3,6 +3,7 @@ package com.ironhack.IronLibrary.model;
 import jakarta.persistence.*;
 
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Book {
@@ -12,11 +13,11 @@ public class Book {
     private String title;
     private Integer quantity;
 
-    @ManyToOne
+    @ManyToOne (cascade = CascadeType.ALL)
     private Author author;
 
-//    @OneToMany(mappedBy = "issueBook")
-//    private List<Issue> issues;
+//    @OneToOne
+//    private Issue issue;
 
     public Book() {
     }
@@ -77,5 +78,18 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", quantity=" + quantity +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(isbn, book.isbn) && Objects.equals(category, book.category) && Objects.equals(title, book.title) && Objects.equals(quantity, book.quantity) && Objects.equals(author.getName(), book.author.getName()) && Objects.equals(author.getEmail(), book.author.getEmail());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(isbn, category, title, quantity, author);
     }
 }
