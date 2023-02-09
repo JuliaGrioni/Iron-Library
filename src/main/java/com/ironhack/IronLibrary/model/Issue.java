@@ -9,9 +9,12 @@ public class Issue {
     private Integer issueId;
     private String issueDate;
     private String returnDate;
-    @OneToOne
+    @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn (name = "student_usn")
     private Student issueStudent;
-    @OneToOne
+
+    @OneToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name = "book_id")
     private Book issueBook;
 
     public Issue() {
@@ -63,4 +66,6 @@ public class Issue {
     public void setIssueBook(Book issueBook) {
         this.issueBook = issueBook;
     }
+
+
 }
