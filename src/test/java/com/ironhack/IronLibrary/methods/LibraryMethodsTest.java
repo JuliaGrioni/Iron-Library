@@ -27,7 +27,6 @@ class LibraryMethodsTest {
 
     private Book book1, book2;
     private Author author1, author2;
-
     private Student student1;
     private Issue issue;
 
@@ -46,7 +45,7 @@ class LibraryMethodsTest {
     @BeforeEach
     void setUp() {
         author1 = new Author("Stephen King", "stephenking@gmail.com");
-        book1 = new Book("012345678", "Fantasy", "The Dark Tower", 1, author1);
+        book1 = new Book("012345678", "Fantasy", "The Dark Tower", 3, author1);
         authorRepository.save(author1);
         bookRepository.save(book1);
 
@@ -57,12 +56,12 @@ class LibraryMethodsTest {
 
         student1 = new Student("123", "Teresa");
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
-//        Date date = new Date();
-//        String issueDate = sdf.format(date);
-//        Date returnDate = new Date(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-//        String returnDateString = sdf.format(returnDate);
-//        issue = new Issue(issueDate, returnDateString, student1, book1);
+        SimpleDateFormat sdf = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+        Date date = new Date();
+        String issueDate = sdf.format(date);
+        Date returnDate = new Date(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+        String returnDateString = sdf.format(returnDate);
+        issue = new Issue(issueDate, returnDateString, student1, book1);
     }
 
     @AfterEach
@@ -133,22 +132,34 @@ class LibraryMethodsTest {
         assertEquals(expectedBooks, foundBooks);
     }
 
-//    @Test
-//
-//    void issueBookToStudent() {
-//        libraryMethods.issueBookToStudent("123", "Teresa", "The Dark Tower");
-//
-//
-////        Optional<Student> optionalStudent = studentRepository.findByUsn("123");
-////        assertTrue(optionalStudent.isPresent());
-////        Student student = optionalStudent.get();
-////        assertEquals("123", student.getUsn());
-////        assertEquals("Teresa", student.getName());
-//
-//
-//    }
-//
-//    @Test
-//    void listBooksByUsn() {
-//    }
+    @Test
+    @Transactional
+    void issueBookToStudent_validInputs_Works() {
+        libraryMethods.issueBookToStudent("123", "Teresa", "The Dark Tower");
+
+        Optional<Student> optionalStudent = studentRepository.findByUsn("123");
+        assertTrue(optionalStudent.isPresent());
+        assertEquals("123", optionalStudent.get().getUsn());
+        assertEquals("Teresa", optionalStudent.get().getName());
+
+        List<Issue> optionalIssue = issueRepository.findByIssueStudentUsn("123");
+        assertFalse(optionalIssue.isEmpty());
+        Issue issue = optionalIssue.get(0);
+        assertEquals("Teresa", issue.getIssueStudent().getName());
+        assertEquals("The Dark Tower", issue.getIssueBook().getTitle());
+
+        Optional<Book> updatedBook = bookRepository.findBookByTitle("The Dark Tower");
+        assertTrue(updatedBook.isPresent());
+        assertEquals(2, updatedBook.get().getQuantity());
+
+    }
+
+    @Test
+    void listBooksByUsn_validUsn_Finds() {
+        List<Issue> issueList = issueRepository.findByIssueStudentUsn("123");
+        assertNotNull(issueList);
+        for (Issue issue : issueList) {
+            assertEquals("123", issue.getIssueStudent().getUsn());
+        }
+    }
 }

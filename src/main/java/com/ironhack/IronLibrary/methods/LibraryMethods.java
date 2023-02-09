@@ -7,6 +7,7 @@ import com.ironhack.IronLibrary.repository.AuthorRepository;
 import com.ironhack.IronLibrary.repository.BookRepository;
 import com.ironhack.IronLibrary.repository.IssueRepository;
 import com.ironhack.IronLibrary.repository.StudentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -109,33 +110,35 @@ public class LibraryMethods {
         return bookList;
     }
 
-
+    @Transactional
     public void issueBookToStudent(String usn, String name,  String title) {
         Optional<Book> book = bookRepository.findBookByTitle(title);
         if (!book.isPresent()) {
-            throw new IllegalArgumentException("Book not found in the library");
+ //           throw new IllegalArgumentException("Book not found in the library");
+            System.err.println("Book not found in the library");
         } else if (book.get().getQuantity() == 0) {
-            throw new IllegalArgumentException("Book is not available");
+//            throw new IllegalArgumentException("Book is not available");
+            System.err.println("Book is not available");
         } else {
             Optional<Student> optionalStudent = studentRepository.findByUsn(usn);
             Student student;
             if (!optionalStudent.isPresent()) {
                 student = new Student(usn, name);
-                studentRepository.save(student);
+
             } else {
                 student = optionalStudent.get();
             }
+                book.get().setQuantity(book.get().getQuantity() - 1);
 
-            book.get().setQuantity(book.get().getQuantity() - 1);
+                SimpleDateFormat sdf = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
+                Date date = new Date();
+                String issueDate = sdf.format(date);
+                Date returnDate = new Date(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+                String returnDateString = sdf.format(returnDate);
+                Issue issue = new Issue(issueDate, returnDateString, student, book.get());
+                issueRepository.save(issue);
+                System.out.println("Book issued. Return date: " + returnDateString);
 
-            SimpleDateFormat sdf = new SimpleDateFormat("E MMM dd HH:mm:ss z yyyy");
-            Date date = new Date();
-            String issueDate = sdf.format(date);
-            Date returnDate = new Date(date.getTime() + (7 * 24 * 60 * 60 * 1000));
-            String returnDateString = sdf.format(returnDate);
-            Issue issue = new Issue(issueDate, returnDateString, student, book.get());
-            issueRepository.save(issue);
-            System.out.println("Book issued. Return date: " + returnDateString);
         }
     }
 
@@ -143,12 +146,11 @@ public class LibraryMethods {
     public void listBooksByUsn(String usn) {
         List<Issue> issueList = issueRepository.findByIssueStudentUsn(usn);
         if(issueList.isEmpty()) {
-            throw new IllegalArgumentException("No books rented by the student with USN: " + usn);
+            System.err.println("No books rented by the student with USN: " + usn);
         } else {
             System.out.println("Books rented by the student with USN: " + usn);
             System.out.printf(String.format("%-30s%-20s%-20s\n", "Book Title", "Student Name", "Return Date"));
             for(Issue issue : issueList) {
-//                System.out.println(issue.getIssueBook().getTitle() + " " + issue.getIssueStudent().getName() + " " + issue.getReturnDate());
                 System.out.println(String.format("%-30s%-20s%-20s\n", issue.getIssueBook().getTitle(), issue.getIssueStudent().getName(), issue.getReturnDate()));
             }
         }

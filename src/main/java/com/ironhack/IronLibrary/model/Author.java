@@ -13,8 +13,8 @@ public class Author {
     private Integer authorId;
     private String name;
     private String email;
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-//    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+//    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<Book> books;
 
     public Author() {
