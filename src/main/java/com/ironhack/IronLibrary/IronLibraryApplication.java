@@ -1,12 +1,20 @@
 package com.ironhack.IronLibrary;
 
 import com.ironhack.IronLibrary.methods.LibraryMethods;
+import com.ironhack.IronLibrary.model.Author;
+import com.ironhack.IronLibrary.model.Student;
+import com.ironhack.IronLibrary.repository.AuthorRepository;
+import com.ironhack.IronLibrary.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.Optional;
 import java.util.Scanner;
+
+
+
 
 ////////////////////////////////////////////////////////////////////////
 // Uncomment the following code to use the application
@@ -15,6 +23,10 @@ import java.util.Scanner;
 //public class IronLibraryApplication implements CommandLineRunner {
 //	@Autowired
 //	LibraryMethods libraryMethods;
+//	@Autowired
+//	StudentRepository studentRepository;
+//	@Autowired
+//	AuthorRepository authorRepository;
 //	public static void main(String[] args) {
 //		SpringApplication.run(IronLibraryApplication.class, args);
 //	}
@@ -45,8 +57,16 @@ import java.util.Scanner;
 //					String category= scanner.nextLine();
 //					System.out.println("Enter author name: ");
 //					String name = scanner.nextLine();
-//					System.out.println("Enter author mail: ");
-//					String email = scanner.nextLine();
+//
+//					String email;
+//					Optional<Author> author = authorRepository.findByName(name);
+//					if (author.isPresent()){
+//						email = author.get().getEmail();
+//					}
+//					else {
+//						System.out.println("Enter author mail: ");
+//						email = scanner.nextLine();
+//					}
 //					System.out.println("Enter number of books: ");
 //					int quantity = scanner.nextInt();
 //					scanner.nextLine();
@@ -73,8 +93,14 @@ import java.util.Scanner;
 //				case "6":
 //					System.out.println("Enter student USN: ");
 //					String usn = scanner.nextLine();
-//					System.out.println("Enter student name: ");
-//					name = scanner.nextLine();
+//					Optional<Student> student = studentRepository.findByUsn(usn);
+//					if (student.isPresent()){
+//						name = student.get().getName();
+//					}
+//					else {
+//						System.out.println("Enter student name: ");
+//						name = scanner.nextLine();
+//					}
 //					System.out.println("Enter book title: ");
 //					title = scanner.nextLine();
 //					libraryMethods.issueBookToStudent(usn, name, title);
